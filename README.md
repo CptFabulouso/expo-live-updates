@@ -159,6 +159,7 @@ Configuration options for the Live Update notification. Separated from state to 
 type LiveUpdateConfig = {
   deepLinkUrl?: string
   iconBackgroundColor?: string
+  playSound?: boolean
 }
 ```
 

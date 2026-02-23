@@ -52,6 +52,7 @@ export default function LiveUpdatesScreen() {
   const [iconBackgroundColor, onIconBackgroundColor] = useState('red')
   const [shortCriticalText, setShortCriticalText] = useState('SWM')
   const [showTime, setShowTime] = useState(false)
+  const [playSound, setPlaySound] = useState(true)
 
   const [hours, setHours] = useState('0')
   const [minutes, setMinutes] = useState('10')
@@ -203,6 +204,7 @@ export default function LiveUpdatesScreen() {
     iconBackgroundColor: passIconBackgroundColor
       ? iconBackgroundColor
       : undefined,
+    playSound,
   })
 
   const handleStartLiveUpdate = () => {
@@ -333,6 +335,10 @@ export default function LiveUpdatesScreen() {
             />
           )}
 
+          <LabelWithSwitch
+            label="Play sound"
+            switchProps={{ value: playSound, setValue: setPlaySound }}
+          />
           <LabelWithSwitch
             label="Show time"
             switchProps={{ value: showTime, setValue: setShowTime }}
