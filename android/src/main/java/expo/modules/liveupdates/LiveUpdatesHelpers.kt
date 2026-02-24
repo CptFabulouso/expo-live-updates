@@ -9,6 +9,11 @@ import androidx.core.content.ContextCompat
 
 private const val CHANNEL_ID_KEY = "expo.modules.liveupdates.channelId"
 private const val CHANNEL_NAME_KEY = "expo.modules.liveupdates.channelName"
+private const val NOTIFICATION_ICON_KEY = "expo.modules.liveupdates.icon"
+private const val PROGRESS_ICON_KEY = "expo.modules.liveupdates.progressIcon"
+private const val PROGRESS_START_ICON_KEY = "expo.modules.liveupdates.progressStartIcon"
+private const val PROGRESS_END_ICON_KEY = "expo.modules.liveupdates.progressEndIcon"
+private const val NOTIFICATION_COLOR_KEY = "expo.modules.liveupdates.iconColor"
 private const val EXPO_MODULE_SCHEME_KEY = "expo.modules.scheme"
 private const val TAG = "ManifestHelpers"
 
@@ -17,6 +22,17 @@ private fun getMetadataFromManifest(context: Context, key: String): String? {
   val packageInfo =
     packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
   return packageInfo.metaData?.getString(key)
+}
+
+private fun getMetadataIntFromManifest(context: Context, key: String): Int? {
+  val packageManager = context.packageManager
+  val packageInfo =
+    packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+  val value = packageInfo.metaData?.getInt(key)
+  if(value == 0){
+    return null
+  }
+  return value
 }
 
 private fun getRequiredMetadataFromManifest(context: Context, key: String): String {
@@ -35,6 +51,35 @@ fun getChannelId(context: Context): String {
 
 fun getChannelName(context: Context): String {
   return getRequiredMetadataFromManifest(context, CHANNEL_NAME_KEY)
+}
+
+fun getNotificationIcon(context: Context): Int? {
+  return getMetadataIntFromManifest(context, NOTIFICATION_ICON_KEY)
+}
+
+fun getNotificationProgressIcon(context: Context): Int? {
+  return getMetadataIntFromManifest(context, PROGRESS_ICON_KEY)
+}
+
+fun getNotificationProgressStartIcon(context: Context): Int? {
+  return getMetadataIntFromManifest(context, PROGRESS_START_ICON_KEY)
+}
+
+fun getNotificationProgressEndIcon(context: Context): Int? {
+  return getMetadataIntFromManifest(context, PROGRESS_END_ICON_KEY)
+}
+
+fun getNotificationIconColor(context: Context): Number? {
+  val packageManager = context.packageManager
+  val packageInfo =
+    packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+  packageInfo.metaData?.getInt(NOTIFICATION_COLOR_KEY)?.let {
+    return context.resources.getColor(
+      it,
+      null
+    )
+  }
+  return null
 }
 
 fun getScheme(context: Context): String? {

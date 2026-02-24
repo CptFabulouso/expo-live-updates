@@ -93,9 +93,13 @@ class LiveUpdatesManager(private val context: Context) {
     val notificationBuilder =
       NotificationCompat.Builder(context, channelId)
         .setContentTitle(state.title)
-        .setSmallIcon(android.R.drawable.star_on)
+        .setSmallIcon(getNotificationIcon(context) ?: android.R.drawable.star_on)
         .setContentText(state.text)
         .setSubText(state.subText)
+
+    getNotificationIconColor(context)?.let {
+      notificationBuilder.setColor(it.toInt())
+    }
 
     if(config?.playSound == false){
       notificationBuilder.setSilent(true)
@@ -190,17 +194,32 @@ class LiveUpdatesManager(private val context: Context) {
       getBitmapFromImage(icon)?.let { bitmap ->
         style.setProgressTrackerIcon(IconCompat.createWithBitmap(bitmap))
       }
+    } ?: run {
+      getNotificationProgressIcon(context)?.let {
+        style.setProgressTrackerIcon(IconCompat.createWithResource(context, it))
+      }
     }
+
     progress.startIcon?.let { icon ->
       getBitmapFromImage(icon)?.let { bitmap ->
         style.setProgressStartIcon(IconCompat.createWithBitmap(bitmap))
       }
+    } ?: run {
+      getNotificationProgressStartIcon(context)?.let {
+        style.setProgressStartIcon(IconCompat.createWithResource(context, it))
+      }
     }
+
     progress.endIcon?.let { icon ->
       getBitmapFromImage(icon)?.let { bitmap ->
         style.setProgressEndIcon(IconCompat.createWithBitmap(bitmap))
       }
+    } ?: run {
+        getNotificationProgressEndIcon(context)?.let {
+            style.setProgressEndIcon(IconCompat.createWithResource(context, it))
+        }
     }
+
     points?.let { style.setProgressPoints(it) }
     progress.progress?.let { style.setProgress(it) }
 

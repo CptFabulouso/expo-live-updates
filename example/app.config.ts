@@ -43,6 +43,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         channelId: 'LiveUpdatesServiceChannelId',
         channelName: 'Live Updates Service Channel Name',
+        icon: './assets/LiveUpdates/logo-island-native.png',
+        iconColor: '#0000FF',
+        progressIcon: './assets/LiveUpdates/truck-icon-native.png',
+        progressStartIcon: './assets/LiveUpdates/start-icon-native.png',
+        progressEndIcon: './assets/LiveUpdates/end-icon-native.png',
       },
     ],
   ],
