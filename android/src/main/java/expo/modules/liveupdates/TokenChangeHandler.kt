@@ -17,7 +17,7 @@ object TokenChangeHandler {
 
       lastReceivedToken?.let(::sendTokenChangeEvent)
         ?: FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-          if (task.result != null) sendTokenChangeEvent(task.result)
+          if (task.isSuccessful && task.result != null) sendTokenChangeEvent(task.result)
         }
     }
 
